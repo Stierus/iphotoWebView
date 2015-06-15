@@ -3,12 +3,12 @@ import java.util.HashMap;
 /**
  * Created by pavel on 29.05.15.
  */
-public class photoLibrary {
+public class PhotoLibrary {
     protected HashMap<String, AlbumInfo>albums;
 
-    protected HashMap<Integer, photoInfo>photos;
+    protected HashMap<Integer, PhotoInfo>photos;
 
-    public photoLibrary(HashMap<String, AlbumInfo> albums, HashMap<Integer, photoInfo> photos) {
+    public PhotoLibrary(HashMap<String, AlbumInfo> albums, HashMap<Integer, PhotoInfo> photos) {
         this.albums = albums;
         this.photos = photos;
     }
@@ -21,11 +21,11 @@ public class photoLibrary {
         this.albums = albums;
     }
 
-    public HashMap<Integer, photoInfo> getPhotos() {
+    public HashMap<Integer, PhotoInfo> getPhotos() {
         return photos;
     }
 
-    public void setPhotos(HashMap<Integer, photoInfo> photos) {
+    public void setPhotos(HashMap<Integer, PhotoInfo> photos) {
         this.photos = photos;
     }
 }

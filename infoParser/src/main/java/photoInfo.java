@@ -1,4 +1,4 @@
-public class photoInfo {
+public class PhotoInfo {
 
     private String guid;
     private String caption;

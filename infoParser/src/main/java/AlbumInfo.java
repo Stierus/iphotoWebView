@@ -1,12 +1,13 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class AlbumInfo {
 
     private Integer id;
     private String name;
-    private Integer type;
+    private String type;
     private Integer photoCount;
-    private List<Integer> photoIdList;
+    private List<Integer> photoIdList = new ArrayList<Integer>();
 
     public Integer getId() {
         return id;
@@ -24,11 +25,11 @@ public class AlbumInfo {
         this.name = name;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -44,11 +45,11 @@ public class AlbumInfo {
         return photoIdList;
     }
 
-    public void setPhotoIdList(List<Integer> photoIdList) {
+    public void setPhotoIdList(ArrayList<Integer> photoIdList) {
         this.photoIdList = photoIdList;
     }
 
     public void addPhotoId(Integer photoId) {
-        photoIdList.add(photoId);
+        this.photoIdList.add(photoId);
     }
 }
