@@ -10,6 +10,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class PhotoLibraryParserService {
 
     private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
@@ -35,7 +38,8 @@ public class PhotoLibraryParserService {
                 PhotoLibrary photoLibrary = parser.parseAlbumData(path.toFile());
                 photoLibraryService.updateLibrary(photoLibrary);
             } catch (IPhotoLibraryParserException e) {
-                // @todo log
+                Logger logger = LoggerFactory.getLogger(PhotoLibraryParserService.class);
+                logger.error(e.getMessage(), e);
             }
         }
 

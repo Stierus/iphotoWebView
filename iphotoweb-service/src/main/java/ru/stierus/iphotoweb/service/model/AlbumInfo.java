@@ -1,61 +1,81 @@
 package ru.stierus.iphotoweb.service.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.common.collect.ImmutableList;
 
-//@TODO сделать immutable
 public class AlbumInfo {
 
-    private Integer id;
-    private String name;
-    private String type;
-    private Integer photoCount;
-    private List<Integer> photoIdList = new ArrayList<Integer>();
+    private final Integer id;
+    private final String name;
+    private final String type;
+    private final Integer photoCount;
+    private final ImmutableList<Integer> photoIdList;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
+    public AlbumInfo(Integer id, String name, String type, Integer photoCount, ImmutableList<Integer> photoIdList){
         this.id = id;
+        this.name = name;
+        this.type = type;
+        this.photoCount = photoCount;
+        this.photoIdList = photoIdList;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getType() {
         return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public Integer getPhotoCount() {
         return photoCount;
     }
 
-    public void setPhotoCount(Integer photoCount) {
-        this.photoCount = photoCount;
-    }
-
-    public List<Integer> getPhotoIdList() {
+    public ImmutableList<Integer> getPhotoIdList() {
         return photoIdList;
     }
 
-    public void setPhotoIdList(ArrayList<Integer> photoIdList) {
-        this.photoIdList = photoIdList;
+    public Integer getId() {
+        return id;
     }
 
-    public void addPhotoId(Integer photoId) {
-        this.photoIdList.add(photoId);
+    public static AlbumInfoBuilder builder() {
+        return new AlbumInfoBuilder();
     }
 
+    public static class AlbumInfoBuilder {
+        private Integer id;
+        private Integer photoCount;
+        private String name;
+        private String type;
+        private ImmutableList.Builder<Integer> photoIdList = ImmutableList.builder();
 
-    
+        public AlbumInfoBuilder setId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public AlbumInfoBuilder setPhotoCount(Integer photoCount) {
+            this.photoCount = photoCount;
+            return this;
+        }
+
+        public AlbumInfoBuilder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public AlbumInfoBuilder setType(String type) {
+            this.type = type;
+            return this;
+        }
+
+        public AlbumInfoBuilder addPhotoId(Integer photoId) {
+            this.photoIdList.add(photoId);
+            return this;
+        }
+
+        public AlbumInfo build() {
+            return new AlbumInfo(id, name, type, photoCount, photoIdList.build());
+        }
+    }
 }
