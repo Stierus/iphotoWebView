@@ -1,5 +1,9 @@
+package ru.stierus.iphotoweb.service.model;
+
+//@TODO сделать immutable
 public class PhotoInfo {
 
+    private Integer id;
     private String guid;
     private String caption;
     private String path;
@@ -44,5 +48,13 @@ public class PhotoInfo {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

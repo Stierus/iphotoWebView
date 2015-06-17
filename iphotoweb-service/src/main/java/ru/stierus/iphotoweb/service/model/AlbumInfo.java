@@ -1,6 +1,9 @@
+package ru.stierus.iphotoweb.service.model;
+
 import java.util.ArrayList;
 import java.util.List;
 
+//@TODO сделать immutable
 public class AlbumInfo {
 
     private Integer id;
@@ -52,4 +55,7 @@ public class AlbumInfo {
     public void addPhotoId(Integer photoId) {
         this.photoIdList.add(photoId);
     }
+
+
+    
 }
