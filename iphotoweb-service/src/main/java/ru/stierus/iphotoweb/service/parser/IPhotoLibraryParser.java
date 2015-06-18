@@ -1,6 +1,8 @@
 package ru.stierus.iphotoweb.service.parser;
 
 import com.dd.plist.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.stierus.iphotoweb.service.model.AlbumInfo;
 import ru.stierus.iphotoweb.service.model.PhotoInfo;
 import ru.stierus.iphotoweb.service.model.PhotoLibrary;
@@ -15,13 +17,14 @@ public class IPhotoLibraryParser
      * Парсит /AlbumData.xml
      */
     public PhotoLibrary parseAlbumData(File file) throws IPhotoLibraryParserException {
-        PhotoLibrary.PhotoLibraryBuilder photoLibraryBuilder = PhotoLibrary.builder();
-
         try {
+            Logger logger = LoggerFactory.getLogger(IPhotoLibraryParser.class);
+            logger.info("Начало разбора файла " + file.toString());
+            PhotoLibrary.PhotoLibraryBuilder photoLibraryBuilder = PhotoLibrary.builder();
             NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(file);
             NSObject[] albumList = ((NSArray)rootDict.objectForKey("List of Albums")).getArray();
-
             for (int i = 0; i < albumList.length; i++) {
+                logger.info("i: " + i);
                 NSDictionary album = (NSDictionary) albumList[i];
                 AlbumInfo.AlbumInfoBuilder albumBuilder = AlbumInfo.builder();
 
@@ -31,6 +34,7 @@ public class IPhotoLibraryParser
                 albumBuilder.setType(album.objectForKey("Album Type").toString());
                 NSObject[] keyList = ((NSArray)album.objectForKey("KeyList")).getArray();
                 for (int j = 0; j < keyList.length; j++) {
+                    logger.info("i: " + i + ", j: " + j);
                     //@TODO check nsNumber
                     Integer photoId = Integer.parseInt(keyList[j].toString());
                     albumBuilder.addPhotoId(photoId);
@@ -40,7 +44,9 @@ public class IPhotoLibraryParser
 
             HashMap<String, NSObject> photoList = ((NSDictionary)rootDict.objectForKey("Master Image List")).getHashMap();
             Iterator photoIterator = photoList.entrySet().iterator();
+            int k = 0;
             while (photoIterator.hasNext()) {
+                logger.info("k: " + k);
                 Map.Entry photoSet = (Map.Entry) photoIterator.next();
                 NSDictionary image = (NSDictionary) photoSet.getValue();
                 PhotoInfo.PhotoInfoBuilder photoInfoBuilder = PhotoInfo.builder();
@@ -51,11 +57,13 @@ public class IPhotoLibraryParser
                 photoInfoBuilder.setType(image.objectForKey("MediaType").toString());
                 photoInfoBuilder.setId(Integer.parseInt(photoSet.getKey().toString()));
                 photoLibraryBuilder.addPhoto(photoInfoBuilder.build());
-
+                k++;
             }
+            logger.info("Файл " + file.toString() + " успешно распарсен");
             return photoLibraryBuilder.build();
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger logger = LoggerFactory.getLogger(IPhotoLibraryParser.class);
+            logger.error("Ошибка разбора файла " + file.toString(), e);
             throw new IPhotoLibraryParserException("parse error", e);
         }
     }
