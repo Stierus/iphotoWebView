@@ -27,6 +27,7 @@
         <dependency>
             <groupId>ru.stierus.iphotoweb</groupId>
             <artifactId>iphotoweb-service</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>
