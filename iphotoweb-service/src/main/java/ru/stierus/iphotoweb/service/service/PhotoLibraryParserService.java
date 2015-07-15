@@ -28,20 +28,20 @@ public class PhotoLibraryParserService {
     }
 
     public void start() {
-        executorService.schedule(this::monitor, 5, TimeUnit.SECONDS);
+        executorService.scheduleWithFixedDelay(this::monitor, 0, 5, TimeUnit.SECONDS);
     }
 
     private void monitor(){
+        Logger logger = LoggerFactory.getLogger(IPhotoLibraryParser.class);
+
         List<Path> paths = monitorService.checkLibraries();
         for (Path path : paths) {
             try {
                 PhotoLibrary photoLibrary = parser.parseAlbumData(path.toFile());
                 photoLibraryService.updateLibrary(photoLibrary);
             } catch (IPhotoLibraryParserException e) {
-                Logger logger = LoggerFactory.getLogger(PhotoLibraryParserService.class);
                 logger.error(e.getMessage(), e);
             }
         }
-
     }
 }
