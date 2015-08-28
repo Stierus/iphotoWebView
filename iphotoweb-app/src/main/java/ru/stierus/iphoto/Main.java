@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        String path = "/Users/pavel/coding/iphoto/data/test.photolibrary/AlbumData.xml";
+        String path = "/Users/pavel/coding/java/data/test.photolibrary/AlbumData.xml";
         PhotoLibraryService photoLibraryService = new PhotoLibraryService();
         MainModule view = new MainModule();
         photoLibraryService.addListener(new TestListener());

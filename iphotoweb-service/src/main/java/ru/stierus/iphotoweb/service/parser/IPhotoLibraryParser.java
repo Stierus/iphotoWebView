@@ -42,6 +42,8 @@ public class IPhotoLibraryParser
                 photoLibraryBuilder.addAlbum(albumBuilder.build());
             }
 
+            photoLibraryBuilder.setPath(rootDict.objectForKey("Archive Path").toString());
+
             HashMap<String, NSObject> photoList = ((NSDictionary)rootDict.objectForKey("Master Image List")).getHashMap();
             Iterator photoIterator = photoList.entrySet().iterator();
             int k = 0;
@@ -55,6 +57,7 @@ public class IPhotoLibraryParser
                 photoInfoBuilder.setPath(image.objectForKey("ImagePath").toString());
                 photoInfoBuilder.setThumbPath(image.objectForKey("ThumbPath").toString());
                 photoInfoBuilder.setType(image.objectForKey("MediaType").toString());
+                photoInfoBuilder.setComment(image.objectForKey("Comment").toString());
                 photoInfoBuilder.setId(Integer.parseInt(photoSet.getKey().toString()));
                 photoLibraryBuilder.addPhoto(photoInfoBuilder.build());
                 k++;

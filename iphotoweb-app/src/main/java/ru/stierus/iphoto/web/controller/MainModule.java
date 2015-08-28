@@ -2,8 +2,7 @@ package ru.stierus.iphoto.web.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.stierus.iphoto.web.servlet.BaseServlet;
-import ru.stierus.iphoto.web.servlet.IndexServlet;
+import ru.stierus.iphoto.web.servlet.*;
 import ru.stierus.iphotoweb.service.model.PhotoLibrary;
 import ru.stierus.iphotoweb.service.service.PhotoLibraryListener;
 
@@ -17,7 +16,7 @@ import java.util.*;
  */
 public class MainModule implements PhotoLibraryListener
     {
-        private ArrayList<BaseServlet> servlets;
+        protected ArrayList<BaseServlet> servletList = new ArrayList<BaseServlet> ();
 
         public void initialize(){
             Logger logger = LoggerFactory.getLogger(MainModule.class);
@@ -28,8 +27,21 @@ public class MainModule implements PhotoLibraryListener
                 server.setHandler(context);
 
                 IndexServlet indexServlet = new IndexServlet();
+                context.addServlet(new ServletHolder(indexServlet),"/");
+                servletList.add(indexServlet);
 
-                context.addServlet(new ServletHolder(indexServlet),"/*");
+                PhotoListServlet photoListServlet = new PhotoListServlet();
+                context.addServlet(new ServletHolder(photoListServlet),"/photos");
+                servletList.add(photoListServlet);
+
+                AlbumListServlet albumListServlet = new AlbumListServlet();
+                context.addServlet(new ServletHolder(albumListServlet),"/albums");
+                servletList.add(albumListServlet);
+
+//                StaticFilesServlet staticFilesServlet = new StaticFilesServlet();
+//                context.addServlet(new ServletHolder(staticFilesServlet),"/js/*");
+//                context.addServlet(new ServletHolder(staticFilesServlet),"/css/*");
+
                 server.start();
                 server.join();
             }
@@ -40,7 +52,7 @@ public class MainModule implements PhotoLibraryListener
 
         @Override
         public void onChange(PhotoLibrary library) {
-            for(BaseServlet servlet : this.servlets) {
+            for(BaseServlet servlet : servletList) {
                 servlet.onChange(library);
             }
         }

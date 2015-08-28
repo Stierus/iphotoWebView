@@ -6,6 +6,7 @@ import ru.stierus.iphotoweb.service.model.PhotoLibrary;
 import ru.stierus.iphotoweb.service.service.PhotoLibraryListener;
 
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by pavel on 13.07.15.
@@ -13,6 +14,12 @@ import javax.servlet.http.HttpServlet;
 public class BaseServlet extends HttpServlet implements PhotoLibraryListener{
 
     private PhotoLibrary library;
+
+    private boolean checkPermission(HttpServletRequest request) {
+
+
+        return false;
+    }
 
     @Override
     public void onChange(PhotoLibrary library) {

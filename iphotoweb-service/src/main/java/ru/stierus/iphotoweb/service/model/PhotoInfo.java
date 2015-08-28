@@ -8,14 +8,24 @@ public class PhotoInfo {
     private final String path;
     private final String thumbPath;
     private final String type;
+    private final String comment;
 
-    public PhotoInfo(Integer id, String guid, String caption, String path, String thumbPath, String type) {
+    public PhotoInfo(
+            Integer id,
+            String guid,
+            String caption,
+            String path,
+            String thumbPath,
+            String type,
+            String comment
+    ) {
         this.id = id;
         this.guid = guid;
         this.caption = caption;
         this.path = path;
         this.thumbPath = thumbPath;
         this.type = type;
+        this.comment = comment;
     }
 
     public Integer getId() {
@@ -42,6 +52,8 @@ public class PhotoInfo {
         return type;
     }
 
+    public String getComment() { return comment; }
+
     public static PhotoInfoBuilder builder() {
         return new PhotoInfoBuilder();
     }
@@ -53,6 +65,7 @@ public class PhotoInfo {
         private String path;
         private String thumbPath;
         private String type;
+        private String comment;
 
         public void setId(Integer id) {
             this.id = id;
@@ -74,12 +87,12 @@ public class PhotoInfo {
             this.thumbPath = thumbPath;
         }
 
-        public void setType(String type) {
-            this.type = type;
-        }
+        public void setType(String type) { this.type = type; }
+
+        public void setComment(String comment) { this.comment = comment; }
 
         public PhotoInfo build() {
-            return new PhotoInfo(id, guid, caption, path, thumbPath, type);
+            return new PhotoInfo(id, guid, caption, path, thumbPath, type, comment);
         }
     }
 }
