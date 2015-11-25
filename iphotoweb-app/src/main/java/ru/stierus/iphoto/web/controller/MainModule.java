@@ -38,8 +38,10 @@ public class MainModule implements PhotoLibraryListener
                 context.addServlet(new ServletHolder(albumListServlet),"/albums");
                 servletList.add(albumListServlet);
 
-//                StaticFilesServlet staticFilesServlet = new StaticFilesServlet();
-//                context.addServlet(new ServletHolder(staticFilesServlet),"/js/*");
+                PhotoServlet photoServlet = new PhotoServlet();
+                context.addServlet(new ServletHolder(photoServlet),"/photo/*");
+                servletList.add(photoServlet);
+
 //                context.addServlet(new ServletHolder(staticFilesServlet),"/css/*");
 
                 server.start();

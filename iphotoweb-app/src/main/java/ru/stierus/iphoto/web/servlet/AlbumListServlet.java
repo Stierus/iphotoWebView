@@ -1,6 +1,5 @@
 package ru.stierus.iphoto.web.servlet;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.oracle.javafx.jmx.json.JSONDocument;
 import ru.stierus.iphotoweb.service.model.AlbumInfo;
@@ -13,15 +12,13 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 
-/**
- * Created by pavel on 28.08.15.
- */
+
 public class AlbumListServlet extends BaseServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         try {
-            response.setContentType("application/json");
+            response.setContentType("application/json;charset=UTF-8");
             response.setStatus(HttpServletResponse.SC_OK);
 
             JSONDocument albumList = this.getAlbumList(this.getLibrary());
@@ -65,6 +62,7 @@ public class AlbumListServlet extends BaseServlet {
             albumElement.setString("id", album.getId().toString());
             albumElement.setString("name", album.getName());
             albumElement.setString("type", album.getType());
+            albumElement.setNumber("photo_quantity", album.getPhotoCount());
             albumList.set(k, albumElement);
             k++;
         }

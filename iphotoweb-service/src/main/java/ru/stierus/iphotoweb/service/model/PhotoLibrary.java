@@ -1,9 +1,12 @@
 package ru.stierus.iphotoweb.service.model;
 
 import com.google.common.collect.ImmutableMap;
+import com.oracle.javafx.jmx.json.JSONDocument;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Iterator;
+import java.util.Map;
 
 
 public class PhotoLibrary {
@@ -27,8 +30,21 @@ public class PhotoLibrary {
         return albums;
     }
 
-    public ImmutableMap<Integer, PhotoInfo> getPhotos() {
-        return photos;
+    public ImmutableMap<Integer, PhotoInfo> getPhotos() { return photos; }
+
+    public PhotoInfo getPhotoByGuid(String guid) throws Exception {
+        Iterator photoIterator = this.photos.entrySet().iterator();
+
+        while (photoIterator.hasNext()) {
+            Map.Entry photoInfo = (Map.Entry) photoIterator.next();
+            PhotoInfo photo = (PhotoInfo) photoInfo.getValue();
+
+            if(photo.getGuid() == guid){
+                return photo;
+            }
+        }
+
+        throw new Exception("library not contains requested photo guid");
     }
 
     public static PhotoLibraryBuilder builder() {

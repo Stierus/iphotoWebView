@@ -23,6 +23,7 @@ public class IPhotoLibraryParser
             PhotoLibrary.PhotoLibraryBuilder photoLibraryBuilder = PhotoLibrary.builder();
             NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(file);
             NSObject[] albumList = ((NSArray)rootDict.objectForKey("List of Albums")).getArray();
+            String libraryPath = rootDict.objectForKey("Archive Path").toString();
             for (int i = 0; i < albumList.length; i++) {
                 logger.info("i: " + i);
                 NSDictionary album = (NSDictionary) albumList[i];
@@ -54,8 +55,16 @@ public class IPhotoLibraryParser
                 PhotoInfo.PhotoInfoBuilder photoInfoBuilder = PhotoInfo.builder();
                 photoInfoBuilder.setCaption(image.objectForKey("Caption").toString());
                 photoInfoBuilder.setGuid(image.objectForKey("GUID").toString());
-                photoInfoBuilder.setPath(image.objectForKey("ImagePath").toString());
-                photoInfoBuilder.setThumbPath(image.objectForKey("ThumbPath").toString());
+                photoInfoBuilder.setPath(getRealPhotoPath(
+                        file,
+                        libraryPath,
+                        image.objectForKey("ImagePath").toString()
+                ));
+                photoInfoBuilder.setThumbPath(getRealPhotoPath(
+                        file,
+                        libraryPath,
+                        image.objectForKey("ThumbPath").toString()
+                ));
                 photoInfoBuilder.setType(image.objectForKey("MediaType").toString());
                 photoInfoBuilder.setComment(image.objectForKey("Comment").toString());
                 photoInfoBuilder.setId(Integer.parseInt(photoSet.getKey().toString()));
@@ -69,5 +78,14 @@ public class IPhotoLibraryParser
             logger.error("Ошибка разбора файла " + file.toString(), e);
             throw new IPhotoLibraryParserException("parse error", e);
         }
+    }
+
+    private String getRealPhotoPath(
+            File libraryFile,
+            String libraryPath,
+            String photoPathInXml
+    ) {
+        String rootRealPath = libraryFile.getParent();
+        return photoPathInXml.replaceAll(libraryPath, rootRealPath);
     }
 }
