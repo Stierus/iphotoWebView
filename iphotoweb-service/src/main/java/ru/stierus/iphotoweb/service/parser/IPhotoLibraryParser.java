@@ -16,7 +16,7 @@ public class IPhotoLibraryParser
     /**
      * Парсит /AlbumData.xml
      */
-    public PhotoLibrary parseAlbumData(File file) throws IPhotoLibraryParserException {
+    public PhotoLibrary parseAlbumData(File file) throws PhotoLibraryParserException {
         try {
             Logger logger = LoggerFactory.getLogger(IPhotoLibraryParser.class);
             logger.info("Начало разбора файла " + file.toString());
@@ -76,7 +76,7 @@ public class IPhotoLibraryParser
         } catch (Exception e) {
             Logger logger = LoggerFactory.getLogger(IPhotoLibraryParser.class);
             logger.error("Ошибка разбора файла " + file.toString(), e);
-            throw new IPhotoLibraryParserException("parse error", e);
+            throw new PhotoLibraryParserException("parse error", e);
         }
     }
 
