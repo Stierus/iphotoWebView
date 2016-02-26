@@ -12,27 +12,33 @@ import java.io.IOException;
 
 public class PhotoListServlet extends BaseServlet {
 
+    private static final int DEFAULT_LIMIT = 20;
+    private static final int DEFAULT_OFFSET = 0;
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         try {
             response.setContentType("application/json");
             response.setStatus(HttpServletResponse.SC_OK);
 
+            Integer offset = DEFAULT_OFFSET;
+            Integer limit = DEFAULT_LIMIT;
+
             if (request.getParameter("album") == null) {
                 throw new IllegalArgumentException("param 'album' cant be empty");
             }
-            if (request.getParameter("offset") == null) {
-                throw new IllegalArgumentException("param 'offset' cant be empty");
+            if (request.getParameter("offset") != null) {
+                offset = Integer.parseInt(request.getParameter("offset"));
             }
-            if (request.getParameter("limit") == null) {
-                throw new IllegalArgumentException("param 'limit' cant be empty");
+            if (request.getParameter("limit") != null) {
+                limit = Integer.parseInt(request.getParameter("limit"));
             }
 
             JSONDocument imgList = this.getImgList(
                     this.getLibrary(),
                     request.getParameter("album"),
-                    Integer.parseInt(request.getParameter("offset")),
-                    Integer.parseInt(request.getParameter("limit"))
+                    offset,
+                    limit
             );
 
             response.getWriter().println(successResponse(imgList));

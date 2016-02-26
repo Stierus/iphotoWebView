@@ -39,7 +39,7 @@ public class PhotoLibrary {
             Map.Entry photoInfo = (Map.Entry) photoIterator.next();
             PhotoInfo photo = (PhotoInfo) photoInfo.getValue();
 
-            if(photo.getGuid() == guid){
+            if (photo.getGuid().equals(guid)) {
                 return photo;
             }
         }
